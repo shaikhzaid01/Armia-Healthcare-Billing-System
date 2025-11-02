@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab Test Billing System</title>
+
+    <!-- 1. Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- 2. SweetAlert2 (for beautiful notifications) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- 3. Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Custom scrollbar for test list */
+      .test-list-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .test-list-scrollbar::-webkit-scrollbar-track {
+        background: #f1f5f9; /* gray-100 */
+        border-radius: 10px;
+      }
+      .test-list-scrollbar::-webkit-scrollbar-thumb {
+        background: #94a3b8; /* gray-400 */
+        border-radius: 10px;
+      }
+      .test-list-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #64748b; /* gray-500 */
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc; /* bg-slate-50 */
+      }
+
+      /* SweetAlert2 custom styling to match Tailwind */
+      .swal2-popup {
+        font-family: "Inter", sans-serif;
+        border-radius: 0.75rem; /* rounded-xl */
+      }
+      .swal2-title {
+        font-weight: 600; /* font-semibold */
+      }
+      .swal2-confirm {
+        background-color: #2563eb !important; /* blue-600 */
+        border-radius: 0.5rem; /* rounded-lg */
+        font-weight: 500; /* font-medium */
+      }
+      .swal2-cancel {
+        background-color: #ef4444 !important; /* red-500 */
+        color: white !important;
+        border-radius: 0.5rem; /* rounded-lg */
+        font-weight: 500; /* font-medium */
+      }
+      .swal2-deny {
+        border-radius: 0.5rem; /* rounded-lg */
+        font-weight: 500; /* font-medium */
+      }
+
+      /* Custom class for bill summary modal */
+      .bill-summary-swal .swal2-html-container {
+        text-align: left;
+        margin: 1.25em 1.5em 0.5em;
+      }
+    </style>
+
+    <!-- 
+    =====================================================================
+    JAVASCRIPT LOGIC (with Alpine.js)
+    FIX: Defined *before* Alpine.js is loaded to prevent reference errors.
+    =====================================================================
+    -->
+    <script>
+      // --- DATA LOADING ---
+      // Data ab init() mein fetch hoga.
+
+      function labBillingApp() {
+        return {
+          allTests: [],
+          selectedTests: [],
+          searchQuery: "",
+
+          discountType: "percentage", // 'percentage' or 'flat'
+          discountValue: 0,
+
+          subtotal: 0,
+          totalDiscount: 0,
+          grandTotal: 0,
+
+          // Admin state
+          isAdmin: false,
+          showAdminModal: false,
+          adminPassword: "",
+          totalLabProfit: 0,
+          totalDrProfit: 0,
+
+          // --- INITIALIZATION ---
+          async init() {
+            try {
+              // Data ab 'data.json' se fetch hoga
+              const response = await fetch("data.json"); // Yeh file same folder mein honi chahiye
+              if (!response.ok) {
+                throw new Error(
+                  "Network response was not ok. Make sure data.json is in the same folder."
+                );
+              }
+              this.allTests = await response.json();
+            } catch (e) {
+              console.error("Error fetching test data:", e);
+              Swal.fire({
+                icon: "error",
+                title: "Data Error",
+                text: "Could not load test data. Please check if data.json file is present.",
+              });
+            }
+
+            // Sabhi important cheezon ko watch karein
+            this.$watch("selectedTests", () => this.calculateTotals());
+            this.$watch("discountType", () => this.calculateTotals());
+            this.$watch("discountValue", () => this.calculateTotals());
+          },
+
+          // --- Computed Property (Getter) for filtered list ---
+          get filteredList() {
+            if (!this.searchQuery) {
+              return this.allTests; // Agar search khali hai, to sab test dikhayein
+            }
+
+            const query = this.searchQuery.toLowerCase();
+            return this.allTests.filter((test) => {
+              const shortNameMatch = test.shortName
+                .toLowerCase()
+                .includes(query);
+              const fullNameMatch = test.fullName
+                ? test.fullName.toLowerCase().includes(query)
+                : false;
+              const categoryMatch = test.category
+                ? test.category.toLowerCase().includes(query)
+                : false;
+              return shortNameMatch || fullNameMatch || categoryMatch;
+            });
+          },
+
+          // --- Computed Property (Getter) for categorized list ---
+          get categorizedTests() {
+            // Sort karein by category first
+            const sortedTests = [...this.filteredList].sort((a, b) => {
+              const catA = a.category || "Uncategorized";
+              const catB = b.category || "Uncategorized";
+              return catA.localeCompare(catB);
+            });
+
+            return sortedTests.reduce((groups, test) => {
+              const category = test.category || "Uncategorized"; // Default category
+              if (!groups[category]) {
+                groups[category] = [];
+              }
+              groups[category].push(test);
+              return groups;
+            }, {});
+          },
+
+          // --- NEW: Function to check if test is selected ---
+          isTestSelected(testId) {
+            return this.selectedTests.some((t) => t.id === testId);
+          },
+
+          // --- TEST MANAGEMENT ---
+          addTestToBill(test) {
+            if (this.isTestSelected(test.id)) {
+              // Optional: Show toast message that it's already added
+              // Since button is disabled, this is less likely to be clicked,
+              // but good for the row click.
+              Swal.fire({
+                icon: "info",
+                title: "Already Added",
+                text: `'${test.shortName}' is already in the bill.`,
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+              });
+            } else {
+              this.selectedTests.push(test);
+            }
+          },
+
+          removeTestFromBill(testId) {
+            this.selectedTests = this.selectedTests.filter(
+              (t) => t.id !== testId
+            );
+          },
+
+          clearBill() {
+            Swal.fire({
+              title: "Are you sure?",
+              text: "This will clear all selected tests and reset the bill.",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Yes, clear it!",
+              cancelButtonText: "Cancel",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.selectedTests = [];
+                this.discountValue = 0;
+                this.searchQuery = "";
+                Swal.fire("Cleared!", "The bill has been cleared.", "success");
+              }
+            });
+          },
+
+          // --- ✨ NEW: Bill Summary Modal (Replaces Gemini) ---
+          showBillSummaryModal() {
+            if (this.selectedTests.length === 0) {
+              Swal.fire(
+                "Bill Empty",
+                "Please add at least one test to the bill.",
+                "info"
+              );
+              return;
+            }
+
+            // Build HTML for selected tests
+            let itemsHtml = this.selectedTests
+              .map(
+                (item) => `
+                        <div class="flex justify-between items-center py-2 border-b">
+                            <span class="text-gray-700">${item.shortName}</span>
+                            <span class="font-medium">${this.formatCurrency(
+                              item.mrp
+                            )}</span>
+                        </div>
+                    `
+              )
+              .join("");
+
+            // Build the full modal HTML
+            const billHtml = `
+                        <div class="max-h-60 overflow-y-auto pr-2 test-list-scrollbar">
+                            ${itemsHtml}
+                        </div>
+                        <div class="mt-4 space-y-2 border-t pt-4">
+                            <div class="flex justify-between items-center text-lg">
+                                <span class="font-medium text-gray-600">Subtotal</span>
+                                <span class="font-semibold text-gray-800">${this.formatCurrency(
+                                  this.subtotal
+                                )}</span>
+                            </div>
+                            <div class="flex justify-between items-center text-lg text-red-600">
+                                <span class="font-medium">Discount</span>
+                                <span class="font-semibold">- ${this.formatCurrency(
+                                  this.totalDiscount
+                                )}</span>
+                            </div>
+                            <div class="flex justify-between items-center text-2xl font-bold text-gray-900 border-t pt-2 mt-2">
+                                <span>Grand Total</span>
+                                <span>${this.formatCurrency(
+                                  this.grandTotal
+                                )}</span>
+                            </div>
+                        </div>
+                    `;
+
+            Swal.fire({
+              title: "Final Bill Summary",
+              html: billHtml,
+              confirmButtonText: "Done",
+              customClass: {
+                popup: "bill-summary-swal", // Custom class for styling
+              },
+            });
+          },
+
+          // --- BILL CALCULATION (Same as before) ---
+          calculateTotals() {
+            this.subtotal = this.selectedTests.reduce(
+              (acc, test) => acc + test.mrp,
+              0
+            );
+            let discount = 0;
+            if (this.discountType === "percentage") {
+              discount = (this.subtotal * this.discountValue) / 100;
+            } else {
+              discount = this.discountValue;
+            }
+            this.totalDiscount = Math.min(Math.max(0, discount), this.subtotal);
+            this.grandTotal = this.subtotal - this.totalDiscount;
+
+            if (this.isAdmin) {
+              this.totalLabProfit = this.selectedTests.reduce(
+                (acc, test) => acc + test.profit,
+                0
+              );
+              this.totalDrProfit = this.selectedTests.reduce(
+                (acc, test) => acc + test.drProfit,
+                0
+              );
+            }
+          },
+
+          // --- ADMIN FUNCTIONS (Same as before) ---
+          attemptAdminLogin() {
+            if (this.adminPassword === "admin123") {
+              this.isAdmin = true;
+              this.showAdminModal = false;
+              this.adminPassword = "";
+              this.calculateTotals();
+              Swal.fire({
+                icon: "success",
+                title: "Admin View Enabled",
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 2000,
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Incorrect Password",
+                text: "The password you entered is wrong.",
+              });
+            }
+          },
+
+          logoutAdmin() {
+            this.isAdmin = false;
+            this.totalLabProfit = 0;
+            this.totalDrProfit = 0;
+            Swal.fire({
+              icon: "info",
+              title: "Admin View Disabled",
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          },
+
+          // --- UTILITY (Same as before) ---
+          formatCurrency(value) {
+            if (typeof value !== "number") {
+              value = 0;
+            }
+            return value.toLocaleString("en-IN", {
+              style: "currency",
+              currency: "INR",
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            });
+          },
+        };
+      }
+    </script>
+
+    <!-- 4. Alpine.js (for interactivity) -->
+    <!-- FIX: `defer` attribute add kiya gaya hai taaki script body parse hone ke baad run ho -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+  </head>
+
+  <body
+    class="bg-slate-50"
+    x-data="labBillingApp()"
+    x-init="init()"
+    @keydown.escape.window="showAdminModal = false"
+  >
+    <!-- Admin Login Modal (No changes) -->
+    <div
+      x-show="showAdminModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
+      @click="showAdminModal = false"
+      style="display: none"
+    >
+      <div
+        class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-sm"
+        @click.stop
+      >
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Admin Login</h2>
+        <p class="text-sm text-gray-600 mb-4">
+          Enter the password to view profit data.
+        </p>
+        <form @submit.prevent="attemptAdminLogin()">
+          <input
+            type="password"
+            x-model="adminPassword"
+            placeholder="Enter password..."
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="submit"
+            class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg mt-4 hover:bg-blue-700 transition duration-200"
+          >
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- End Admin Login Modal -->
+
+    <!-- Main Container -->
+    <div class="container mx-auto p-4 max-w-7xl">
+      <!-- Header -->
+      <header
+        class="flex flex-col sm:flex-row justify-between sm:items-center mb-6 space-y-3 sm:space-y-0"
+      >
+        <h1 class="text-3xl font-bold text-slate-800 text-center sm:text-left">
+          Pathology Lab Billing
+        </h1>
+        <!-- NEW UI for Admin Button -->
+        <button
+          @click="isAdmin ? logoutAdmin() : showAdminModal = true"
+          class="flex items-center justify-center space-x-2 text-sm font-medium py-2 px-4 rounded-lg transition"
+          :class="isAdmin ? 'bg-red-600 text-white hover:bg-red-700' : 'bg-white text-slate-700 border border-slate-300 hover:bg-slate-100'"
+        >
+          <span x-text="isAdmin ? 'Logout Admin' : 'Admin Login'"></span>
+          <svg
+            x-show="!isAdmin"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+            />
+          </svg>
+          <svg
+            x-show="isAdmin"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+            style="display: none"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8 11V7a4 4 0 118 0v4m-4 4v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
+            />
+          </svg>
+        </button>
+      </header>
+
+      <!-- Main Content: 2-Column Layout -->
+      <div class="flex flex-col lg:flex-row lg:space-x-6">
+        <!-- Left Column: Test Selection -->
+        <div class="lg:w-3/5 w-full">
+          <!-- NEW UI: Search Card -->
+          <div
+            class="bg-white p-4 rounded-xl shadow-lg border border-slate-200"
+          >
+            <!-- Search Bar -->
+            <div class="relative mb-4">
+              <input
+                type="text"
+                placeholder="Test name ya category se search karein..."
+                class="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                x-model="searchQuery"
+              />
+              <div
+                class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Test List -->
+            <!-- Responsive height: mobile pe 50vh, large screen pe 65vh -->
+            <div
+              class="h-[50vh] lg:h-[65vh] overflow-y-auto test-list-scrollbar pr-2"
+            >
+              <!-- No results message -->
+              <div
+                x-show="Object.keys(categorizedTests).length === 0 && allTests.length > 0"
+                class="text-center text-gray-500 py-10"
+              >
+                <p class="text-lg font-medium">No tests found.</p>
+                <p class="text-sm">
+                  Aapki search query se koi test match nahi hua.
+                </p>
+              </div>
+
+              <!-- Loading Message -->
+              <div
+                x-show="allTests.length === 0"
+                class="text-center text-gray-500 py-10"
+              >
+                <p class="text-lg font-medium">Loading tests...</p>
+              </div>
+
+              <!-- Category Loop -->
+              <template
+                x-for="(tests, categoryName) in categorizedTests"
+                :key="categoryName"
+              >
+                <div class="mb-4">
+                  <!-- Category Header (Sticky) -->
+                  <h2
+                    class="text-base sm:text-lg font-bold text-blue-800 capitalize sticky top-0 bg-white/90 backdrop-blur-sm py-2 border-b border-gray-200"
+                    x-text="categoryName.toLowerCase().replace(/_/g, ' ')"
+                  ></h2>
+
+                  <div class="mt-2 space-y-2">
+                    <!-- Test Loop (within category) -->
+                    <template x-for="test in tests" :key="test.id">
+                      <div classs="w-full">
+                        <!-- NEW UI: Client View Card -->
+                        <div
+                          x-show="!isAdmin"
+                          @click="addTestToBill(test)"
+                          class="flex justify-between items-center p-3 rounded-lg border transition duration-150 cursor-pointer"
+                          :class="isTestSelected(test.id) ? 'bg-green-50 border-green-400' : 'bg-white border-slate-200 hover:shadow-md hover:border-blue-300'"
+                        >
+                          <div class="flex-1 pr-2">
+                            <h3
+                              class="font-bold text-slate-800"
+                              x-text="test.shortName"
+                            ></h3>
+                            <p
+                              class="text-sm text-slate-600"
+                              x-text="test.fullName"
+                            ></p>
+                            <p
+                              class="text-lg font-semibold text-blue-600"
+                              x-text="formatCurrency(test.mrp)"
+                            ></p>
+                          </div>
+                          <button
+                            @click.stop="addTestToBill(test)"
+                            :disabled="isTestSelected(test.id)"
+                            class="font-semibold py-2 px-4 rounded-lg transition text-sm"
+                            :class="isTestSelected(test.id) ? 'bg-green-100 text-green-700' : 'bg-blue-600 text-white hover:bg-blue-700'"
+                          >
+                            <span
+                              x-text="isTestSelected(test.id) ? 'Added ✓' : 'Add'"
+                            ></span>
+                          </button>
+                        </div>
+
+                        <!-- NEW UI: Admin View Card -->
+                        <div
+                          x-show="isAdmin"
+                          @click="addTestToBill(test)"
+                          class="p-3 rounded-lg border transition duration-150 cursor-pointer"
+                          :class="isTestSelected(test.id) ? 'bg-green-100 border-green-500' : 'bg-blue-50 border-blue-200 hover:shadow-md'"
+                          style="display: none"
+                        >
+                          <div class="flex justify-between items-center">
+                            <div class="flex-1 pr-2">
+                              <h3
+                                class="font-bold text-slate-800"
+                                x-text="test.shortName"
+                              ></h3>
+                              <p
+                                class="text-sm text-slate-600"
+                                x-text="test.fullName"
+                              ></p>
+                            </div>
+                            <button
+                              @click.stop="addTestToBill(test)"
+                              :disabled="isTestSelected(test.id)"
+                              class="font-semibold py-2 px-4 rounded-lg transition text-sm"
+                              :class="isTestSelected(test.id) ? 'bg-green-200 text-green-800' : 'bg-blue-600 text-white hover:bg-blue-700'"
+                            >
+                              <span
+                                x-text="isTestSelected(test.id) ? 'Added ✓' : 'Add'"
+                              ></span>
+                            </button>
+                          </div>
+                          <div
+                            class="grid grid-cols-3 gap-2 mt-3 text-center border-t border-blue-200 pt-2"
+                          >
+                            <div>
+                              <span
+                                class="text-xs font-medium text-slate-500 block"
+                                >MRP</span
+                              >
+                              <span
+                                class="text-sm font-semibold text-blue-700"
+                                x-text="formatCurrency(test.mrp)"
+                              ></span>
+                            </div>
+                            <div>
+                              <span
+                                class="text-xs font-medium text-slate-500 block"
+                                >Lab Profit</span
+                              >
+                              <span
+                                class="text-sm font-semibold text-green-700"
+                                x-text="formatCurrency(test.profit)"
+                              ></span>
+                            </div>
+                            <div>
+                              <span
+                                class="text-xs font-medium text-slate-500 block"
+                                >Dr. Profit</span
+                              >
+                              <span
+                                class="text-sm font-semibold text-purple-700"
+                                x-text="formatCurrency(test.drProfit)"
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Bill Summary -->
+        <div class="lg:w-2/5 w-full mt-6 lg:mt-0">
+          <!-- NEW UI: Bill Card -->
+          <div
+            class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 lg:sticky top-6"
+          >
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-2xl font-bold text-slate-800">Current Bill</h2>
+              <button
+                @click="clearBill()"
+                x-show="selectedTests.length > 0"
+                class="text-sm font-medium text-red-600 hover:text-red-800 transition"
+              >
+                Clear All
+              </button>
+            </div>
+
+            <!-- Selected Tests List -->
+            <!-- Responsive height: mobile pe 40vh, large screen pe 30vh -->
+            <div
+              class="h-[40vh] lg:h-[30vh] overflow-y-auto test-list-scrollbar pr-2 mb-4"
+              :class="{ 'h-auto': selectedTests.length === 0 }"
+            >
+              <!-- Empty state -->
+              <div
+                x-show="selectedTests.length === 0"
+                class="text-center text-slate-500 py-10"
+              >
+                <p class="text-lg font-medium">No tests selected.</p>
+                <p class="text-sm">Aap left side se test add kar sakte hain.</p>
+              </div>
+
+              <!-- Selected Items -->
+              <div class="space-y-3">
+                <template x-for="item in selectedTests" :key="item.id">
+                  <div class="flex justify-between items-start">
+                    <div class="flex-1 pr-2">
+                      <p
+                        class="font-semibold text-slate-700"
+                        x-text="item.shortName"
+                      ></p>
+                      <!-- Admin only profit view -->
+                      <div
+                        x-show="isAdmin"
+                        class="flex flex-wrap space-x-2 text-xs"
+                      >
+                        <span
+                          class="text-green-600"
+                          x-text="'Lab: ' + formatCurrency(item.profit)"
+                        ></span>
+                        <span
+                          class="text-purple-600"
+                          x-text="'Dr: ' + formatCurrency(item.drProfit)"
+                        ></span>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                      <span
+                        class="font-semibold text-slate-800"
+                        x-text="formatCurrency(item.mrp)"
+                      ></span>
+                      <button
+                        @click="removeTestFromBill(item.id)"
+                        class="text-red-500 hover:text-red-700 transition"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </div>
+
+            <!-- Bill Calculation -->
+            <div
+              class="space-y-4"
+              x-show="selectedTests.length > 0"
+              style="display: none"
+            >
+              <!-- NEW UI: Subtotal -->
+              <div
+                class="flex justify-between items-center text-lg border-t border-slate-200 pt-4"
+              >
+                <span class="font-medium text-slate-600">Subtotal</span>
+                <span
+                  class="font-semibold text-slate-800"
+                  x-text="formatCurrency(subtotal)"
+                ></span>
+              </div>
+
+              <!-- NEW UI: Discount Section -->
+              <div>
+                <span class="text-sm font-medium text-slate-600">Discount</span>
+                <div class="flex mt-1">
+                  <div
+                    class="flex rounded-lg border border-slate-300 p-1 bg-slate-100 w-full"
+                  >
+                    <button
+                      @click="discountType = 'percentage'"
+                      class="w-1/2 py-2 rounded-md text-sm font-medium"
+                      :class="discountType === 'percentage' ? 'bg-white shadow text-blue-600' : 'text-slate-600'"
+                    >
+                      %
+                    </button>
+                    <button
+                      @click="discountType = 'flat'"
+                      class="w-1/2 py-2 rounded-md text-sm font-medium"
+                      :class="discountType === 'flat' ? 'bg-white shadow text-blue-600' : 'text-slate-600'"
+                    >
+                      ₹
+                    </button>
+                  </div>
+                  <div class="relative w-full ml-2">
+                    <input
+                      type="number"
+                      x-model.number="discountValue"
+                      placeholder="0"
+                      min="0"
+                      class="w-full text-right pr-4 py-2 h-full border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Total Discount -->
+              <div
+                class="flex justify-between items-center text-lg text-red-600"
+              >
+                <span class="font-medium">Discount Amount</span>
+                <span
+                  class="font-semibold"
+                  x-text="'- ' + formatCurrency(totalDiscount)"
+                ></span>
+              </div>
+
+              <!-- NEW UI: Grand Total -->
+              <div
+                class="flex justify-between items-center text-2xl font-bold text-slate-900 border-t-2 border-slate-900 pt-4"
+              >
+                <span>Grand Total</span>
+                <span x-text="formatCurrency(grandTotal)"></span>
+              </div>
+
+              <!-- ✨ NEW: "Generate Bill" Button (Replaces Gemini) -->
+              <div classm="mt-4">
+                <button
+                  @click="showBillSummaryModal()"
+                  class="w-full flex items-center justify-center space-x-2 bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
+                >
+                  <span>Generate Final Bill</span>
+                </button>
+              </div>
+
+              <!-- NEW UI: Admin Profit Summary -->
+              <div
+                x-show="isAdmin"
+                class="border-t border-dashed border-slate-300 pt-4 mt-4 space-y-2"
+                style="display: none"
+              >
+                <h3 class="text-lg font-semibold text-slate-700">
+                  Admin Profit Summary
+                </h3>
+                <div class="flex justify-between items-center text-green-700">
+                  <span class="font-medium">Total Lab Profit</span>
+                  <span
+                    class="font-semibold"
+                    x-text="formatCurrency(totalLabProfit)"
+                  ></span>
+                </div>
+                <div class="flex justify-between items-center text-purple-700">
+                  <span class="font-medium">Total Dr. Profit</span>
+                  <span
+                    class="font-semibold"
+                    x-text="formatCurrency(totalDrProfit)"
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Main Content -->
+    </div>
+    <!-- End Main Container -->
+  </body>
+</html>

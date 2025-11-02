@@ -1,0 +1,1016 @@
+[
+    {
+        "id": "h1",
+        "category": "HEMATOLOGY",
+        "shortName": "CBC",
+        "fullName": "Complete Blood Count",
+        "mrp": 200,
+        "profit": 121,
+        "drProfit": 72.6
+    },
+    {
+        "id": "h3",
+        "category": "HEMATOLOGY",
+        "shortName": "G6PD (Glucose-6-Phosphate Dehydrogenase)",
+        "fullName": "G6PD (Glucose-6-Phosphate Dehydrogenase)",
+        "mrp": 800,
+        "profit": 467,
+        "drProfit": 280.2
+    },
+    {
+        "id": "h4",
+        "category": "HEMATOLOGY",
+        "shortName": "PT/INR",
+        "fullName": "Prothrombin Time & INR",
+        "mrp": 300,
+        "profit": 187,
+        "drProfit": 112.2
+    },
+    {
+        "id": "h5",
+        "category": "HEMATOLOGY",
+        "shortName": "BLOOD GROUP",
+        "mrp": 100,
+        "profit": 23,
+        "drProfit": 13.8
+    },
+    {
+        "id": "h6",
+        "category": "HEMATOLOGY",
+        "shortName": "APTT",
+        "mrp": 450,
+        "profit": 270,
+        "drProfit": 162
+    },
+    {
+        "id": "h7",
+        "category": "HEMATOLOGY",
+        "shortName": "PSMP",
+        "mrp": 220,
+        "profit": 120,
+        "drProfit": 72
+    },
+    {
+        "id": "h8",
+        "category": "HEMATOLOGY",
+        "shortName": "RETICULOCYTE count",
+        "mrp": 310,
+        "profit": 170,
+        "drProfit": 102
+    },
+    {
+        "id": "h9",
+        "category": "HEMATOLOGY",
+        "shortName": "SICKLING TEST",
+        "mrp": 180,
+        "profit": 80,
+        "drProfit": 48
+    },
+    {
+        "id": "b1",
+        "category": "BIOCHEMISTRY",
+        "shortName": "RBS",
+        "fullName": "Random Blood Sugar",
+        "mrp": 100,
+        "profit": 40,
+        "drProfit": 24
+    },
+    {
+        "id": "b2",
+        "category": "BIOCHEMISTRY",
+        "shortName": "LFT",
+        "fullName": "Liver Function Test",
+        "mrp": 700,
+        "profit": 385,
+        "drProfit": 231
+    },
+    {
+        "id": "b3",
+        "category": "BIOCHEMISTRY",
+        "shortName": "SGOT",
+        "fullName": "Serum Glutamic-Oxaloacetic Transaminase",
+        "mrp": 200,
+        "profit": 123,
+        "drProfit": 73.8
+    },
+    {
+        "id": "b4",
+        "category": "BIOCHEMISTRY",
+        "shortName": "SGPT",
+        "fullName": "Serum Glutamic-Pyruvic Transaminase",
+        "mrp": 200,
+        "profit": 123,
+        "drProfit": 73.8
+    },
+    {
+        "id": "b5",
+        "category": "BIOCHEMISTRY",
+        "shortName": "TOTAL BILLIRUBIN",
+        "mrp": 200,
+        "profit": 132,
+        "drProfit": 79.2
+    },
+    {
+        "id": "b6",
+        "category": "BIOCHEMISTRY",
+        "shortName": "DIRECT BILLIRUBIN",
+        "mrp": 200,
+        "profit": 132,
+        "drProfit": 79.2
+    },
+    {
+        "id": "b7",
+        "category": "BIOCHEMISTRY",
+        "shortName": "INDIRECT BILLIRUBIN",
+        "mrp": 200,
+        "profit": 92,
+        "drProfit": 55.2
+    },
+    {
+        "id": "b8",
+        "category": "BIOCHEMISTRY",
+        "shortName": "ALP",
+        "fullName": "Alkaline Phosphatase",
+        "mrp": 200,
+        "profit": 123,
+        "drProfit": 73.8
+    },
+    {
+        "id": "b9",
+        "category": "BIOCHEMISTRY",
+        "shortName": "ALBUMINS",
+        "mrp": 200,
+        "profit": 122,
+        "drProfit": 73.2
+    },
+    {
+        "id": "b10",
+        "category": "BIOCHEMISTRY",
+        "shortName": "GLOBULIN",
+        "mrp": 200,
+        "profit": 131,
+        "drProfit": 78.6
+    },
+    {
+        "id": "b11",
+        "category": "BIOCHEMISTRY",
+        "shortName": "RFT",
+        "fullName": "Renal Function Test (K.F.T)",
+        "mrp": 700,
+        "profit": 385,
+        "drProfit": 231
+    },
+    {
+        "id": "b12",
+        "category": "BIOCHEMISTRY",
+        "shortName": "BUN",
+        "fullName": "Blood Urea Nitrogen",
+        "mrp": 200,
+        "profit": 135,
+        "drProfit": 81
+    },
+    {
+        "id": "b13",
+        "category": "BIOCHEMISTRY",
+        "shortName": "URIC ACID",
+        "mrp": 200,
+        "profit": 128,
+        "drProfit": 76.8
+    },
+    {
+        "id": "b14",
+        "category": "BIOCHEMISTRY",
+        "shortName": "CREATINE",
+        "mrp": 200,
+        "profit": 110,
+        "drProfit": 66
+    },
+    {
+        "id": "b15",
+        "category": "BIOCHEMISTRY",
+        "shortName": "UREA",
+        "mrp": 200,
+        "profit": 137,
+        "drProfit": 82.2
+    },
+    {
+        "id": "b16",
+        "category": "BIOCHEMISTRY",
+        "shortName": "CALCIUM",
+        "mrp": 150,
+        "profit": 82,
+        "drProfit": 49.2
+    },
+    {
+        "id": "b17",
+        "category": "BIOCHEMISTRY",
+        "shortName": "PHOSPHORUS",
+        "mrp": 180,
+        "profit": 99,
+        "drProfit": 59.4
+    },
+    {
+        "id": "b18",
+        "category": "BIOCHEMISTRY",
+        "shortName": "24 HRS URINE PROTEIN",
+        "mrp": 260,
+        "profit": 143,
+        "drProfit": 85.8
+    },
+    {
+        "id": "b19",
+        "category": "BIOCHEMISTRY",
+        "shortName": "LIPID PROFILE",
+        "mrp": 700,
+        "profit": 320,
+        "drProfit": 192
+    },
+    {
+        "id": "b20",
+        "category": "BIOCHEMISTRY",
+        "shortName": "URINE MICRO ALBUMIN",
+        "mrp": 470,
+        "profit": 258,
+        "drProfit": 154.8
+    },
+    {
+        "id": "b21",
+        "category": "BIOCHEMISTRY",
+        "shortName": "T3",
+        "fullName": "Triiodothyronine",
+        "mrp": 190,
+        "profit": 104,
+        "drProfit": 62.4
+    },
+    {
+        "id": "b22",
+        "category": "BIOCHEMISTRY",
+        "shortName": "T4",
+        "fullName": "Thyroxine",
+        "mrp": 160,
+        "profit": 74,
+        "drProfit": 44.4
+    },
+    {
+        "id": "b23",
+        "category": "BIOCHEMISTRY",
+        "shortName": "FT3",
+        "fullName": "Free T3",
+        "mrp": 250,
+        "profit": 137,
+        "drProfit": 82.2
+    },
+    {
+        "id": "b24",
+        "category": "BIOCHEMISTRY",
+        "shortName": "FT4",
+        "fullName": "Free T4",
+        "mrp": 330,
+        "profit": 181,
+        "drProfit": 108.6
+    },
+    {
+        "id": "b25",
+        "category": "BIOCHEMISTRY",
+        "shortName": "TSH",
+        "fullName": "Thyroid-Stimulating Hormone",
+        "mrp": 200,
+        "profit": 110,
+        "drProfit": 66
+    },
+    {
+        "id": "b26",
+        "category": "BIOCHEMISTRY",
+        "shortName": "AMYLASE",
+        "mrp": 300,
+        "profit": 165,
+        "drProfit": 99
+    },
+    {
+        "id": "b27",
+        "category": "BIOCHEMISTRY",
+        "shortName": "HBA1C",
+        "fullName": "Glycated Hemoglobin",
+        "mrp": 400,
+        "profit": 220,
+        "drProfit": 132
+    },
+    {
+        "id": "b28",
+        "category": "BIOCHEMISTRY",
+        "shortName": "LIPASE",
+        "mrp": 530,
+        "profit": 291,
+        "drProfit": 174.6
+    },
+    {
+        "id": "b29",
+        "category": "BIOCHEMISTRY",
+        "shortName": "ELECTROLYTES",
+        "fullName": "Serum Electrolytes",
+        "mrp": 350,
+        "profit": 192,
+        "drProfit": 115.2
+    },
+    {
+        "id": "b30",
+        "category": "BIOCHEMISTRY",
+        "shortName": "GGT",
+        "fullName": "Gamma-Glutamyl Transferase",
+        "mrp": 220,
+        "profit": 121,
+        "drProfit": 72.6
+    },
+    {
+        "id": "b31",
+        "category": "BIOCHEMISTRY",
+        "shortName": "URINE ELECTROLYTES",
+        "mrp": 530,
+        "profit": 285,
+        "drProfit": 171
+    },
+    {
+        "id": "b32",
+        "category": "BIOCHEMISTRY",
+        "shortName": "TROPONIN I – I",
+        "mrp": 1470,
+        "profit": 705,
+        "drProfit": 423
+    },
+    {
+        "id": "b33",
+        "category": "BIOCHEMISTRY",
+        "shortName": "FSH",
+        "fullName": "Follicle-Stimulating Hormone",
+        "mrp": 450,
+        "profit": 247,
+        "drProfit": 148.2
+    },
+    {
+        "id": "b34",
+        "category": "BIOCHEMISTRY",
+        "shortName": "LH",
+        "fullName": "Luteinizing Hormone",
+        "mrp": 450,
+        "profit": 247,
+        "drProfit": 148.2
+    },
+    {
+        "id": "b35",
+        "category": "BIOCHEMISTRY",
+        "shortName": "PRL",
+        "fullName": "Prolactin",
+        "mrp": 450,
+        "profit": 247,
+        "drProfit": 148.2
+    },
+    {
+        "id": "b36",
+        "category": "BIOCHEMISTRY",
+        "shortName": "ESTROGEN E2",
+        "mrp": 500,
+        "profit": 225,
+        "drProfit": 135
+    },
+    {
+        "id": "b37",
+        "category": "BIOCHEMISTRY",
+        "shortName": "TESTOSTERONE",
+        "mrp": 1330,
+        "profit": 1105,
+        "drProfit": 663
+    },
+    {
+        "id": "b38",
+        "category": "BIOCHEMISTRY",
+        "shortName": "BETA HCG",
+        "mrp": 650,
+        "profit": 425,
+        "drProfit": 255
+    },
+    {
+        "id": "b39",
+        "category": "BIOCHEMISTRY",
+        "shortName": "IRON",
+        "mrp": 390,
+        "profit": 214,
+        "drProfit": 128.4
+    },
+    {
+        "id": "b40",
+        "category": "BIOCHEMISTRY",
+        "shortName": "FERRITIN",
+        "mrp": 500,
+        "profit": 275,
+        "drProfit": 165
+    },
+    {
+        "id": "b41",
+        "category": "BIOCHEMISTRY",
+        "shortName": "TIBC",
+        "fullName": "Total Iron-Binding Capacity",
+        "mrp": 400,
+        "profit": 220,
+        "drProfit": 132
+    },
+    {
+        "id": "b42",
+        "category": "BIOCHEMISTRY",
+        "shortName": "CRP",
+        "fullName": "C-Reactive Protein",
+        "mrp": 450,
+        "profit": 247,
+        "drProfit": 148.2
+    },
+    {
+        "id": "b43",
+        "category": "BIOCHEMISTRY",
+        "shortName": "FOLIC ACID",
+        "mrp": 500,
+        "profit": 275,
+        "drProfit": 165
+    },
+    {
+        "id": "b44",
+        "category": "BIOCHEMISTRY",
+        "shortName": "LDH",
+        "fullName": "Lactate Dehydrogenase",
+        "mrp": 450,
+        "profit": 184,
+        "drProfit": 110.4
+    },
+    {
+        "id": "b45",
+        "category": "BIOCHEMISTRY",
+        "shortName": "CPK MB",
+        "mrp": 600,
+        "profit": 270,
+        "drProfit": 162
+    },
+    {
+        "id": "b46",
+        "category": "BIOCHEMISTRY",
+        "shortName": "ACID PHOSPHATASE",
+        "mrp": 170,
+        "profit": 93,
+        "drProfit": 55.8
+    },
+    {
+        "id": "b47",
+        "category": "BIOCHEMISTRY",
+        "shortName": "EGFR",
+        "fullName": "Estimated Glomerular Filtration Rate",
+        "mrp": 200,
+        "profit": 110,
+        "drProfit": 66
+    },
+    {
+        "id": "b48",
+        "category": "BIOCHEMISTRY",
+        "shortName": "ADENOSINE DEAMINASE ( ADA)",
+        "mrp": 660,
+        "profit": 363,
+        "drProfit": 217.8
+    },
+    {
+        "id": "b49",
+        "category": "BIOCHEMISTRY",
+        "shortName": "TOTAL CPK",
+        "mrp": 400,
+        "profit": 220,
+        "drProfit": 132
+    },
+    {
+        "id": "b50",
+        "category": "BIOCHEMISTRY",
+        "shortName": "IONIC CALCIUM",
+        "mrp": 490,
+        "profit": 269,
+        "drProfit": 161.4
+    },
+    {
+        "id": "m1",
+        "category": "MICROBIOLOGY",
+        "shortName": "TORCH PANEL IGG/IGM",
+        "mrp": 4600,
+        "profit": 986,
+        "drProfit": 591.6
+    },
+    {
+        "id": "m2",
+        "category": "MICROBIOLOGY",
+        "shortName": "BACTERIAL CULTURE&SENSITIVITY",
+        "mrp": 1100,
+        "profit": 588,
+        "drProfit": 352.8
+    },
+    {
+        "id": "m3",
+        "category": "MICROBIOLOGY",
+        "shortName": "BLOOD CULTURE&AST",
+        "mrp": 1100,
+        "profit": 572,
+        "drProfit": 343.2
+    },
+    {
+        "id": "m4",
+        "category": "MICROBIOLOGY",
+        "shortName": "AFB CULTURE & SENSITIVITY",
+        "mrp": 1100,
+        "profit": 650,
+        "drProfit": 390
+    },
+    {
+        "id": "m5",
+        "category": "MICROBIOLOGY",
+        "shortName": "FUNGAL CULTURE & AST",
+        "mrp": 1000,
+        "profit": 500,
+        "drProfit": 300
+    },
+    {
+        "id": "m6",
+        "category": "MICROBIOLOGY",
+        "shortName": "ELISA DENGUE IgM",
+        "mrp": 850,
+        "profit": 525,
+        "drProfit": 315
+    },
+    {
+        "id": "m7",
+        "category": "MICROBIOLOGY",
+        "shortName": "ELISA LEPTO IGM",
+        "mrp": 1500,
+        "profit": 750,
+        "drProfit": 450
+    },
+    {
+        "id": "m8",
+        "category": "MICROBIOLOGY",
+        "shortName": "ELISA IGM HCV",
+        "mrp": 750,
+        "profit": 264,
+        "drProfit": 158.4
+    },
+    {
+        "id": "m9",
+        "category": "MICROBIOLOGY",
+        "shortName": "ELISA IGM HAV",
+        "mrp": 950,
+        "profit": 545,
+        "drProfit": 327
+    },
+    {
+        "id": "m10",
+        "category": "MICROBIOLOGY",
+        "shortName": "ELISA IGM HEV",
+        "mrp": 1400,
+        "profit": 837,
+        "drProfit": 502.2
+    },
+    {
+        "id": "m11",
+        "category": "MICROBIOLOGY",
+        "shortName": "ELISA HBSAG",
+        "mrp": 550,
+        "profit": 291,
+        "drProfit": 174.6
+    },
+    {
+        "id": "m12",
+        "category": "MICROBIOLOGY",
+        "shortName": "FNAC",
+        "fullName": "Fine Needle Aspiration Cytology",
+        "mrp": 600,
+        "profit": 160,
+        "drProfit": 96
+    },
+    {
+        "id": "i1",
+        "category": "IMMUNOLOGY",
+        "shortName": "ANTI PHOSPHOLIPID ANTIBODY",
+        "mrp": 900,
+        "profit": 405,
+        "drProfit": 243
+    },
+    {
+        "id": "i2",
+        "category": "IMMUNOLOGY",
+        "shortName": "ANTI Thyroid Antibodies",
+        "mrp": 800,
+        "profit": 440,
+        "drProfit": 264
+    },
+    {
+        "id": "i3",
+        "category": "IMMUNOLOGY",
+        "shortName": "BLOOD ACETYLCHOLINESTERASE",
+        "mrp": 760,
+        "profit": 418,
+        "drProfit": 250.8
+    },
+    {
+        "id": "i4",
+        "category": "IMMUNOLOGY",
+        "shortName": "ACTH",
+        "fullName": "Adrenocorticotropic Hormone",
+        "mrp": 1500,
+        "profit": 750,
+        "drProfit": 450
+    },
+    {
+        "id": "i5",
+        "category": "IMMUNOLOGY",
+        "shortName": "GROWTH Hormone",
+        "mrp": 800,
+        "profit": 440,
+        "drProfit": 264
+    },
+    {
+        "id": "i6",
+        "category": "IMMUNOLOGY",
+        "shortName": "CCP Antibody",
+        "mrp": 1200,
+        "profit": 540,
+        "drProfit": 324
+    },
+    {
+        "id": "i7",
+        "category": "IMMUNOLOGY",
+        "shortName": "INSULIN ANTIBODIES",
+        "mrp": 3100,
+        "profit": 1240,
+        "drProfit": 744
+    },
+    {
+        "id": "i8",
+        "category": "IMMUNOLOGY",
+        "shortName": "VITAMIN D2/D3",
+        "mrp": 2500,
+        "profit": 750,
+        "drProfit": 450
+    },
+    {
+        "id": "i9",
+        "category": "IMMUNOLOGY",
+        "shortName": "ANTI dsDNA",
+        "mrp": 1050,
+        "profit": 247,
+        "drProfit": 148.2
+    },
+    {
+        "id": "c1",
+        "category": "CLINICAL_PATHOLOGY",
+        "shortName": "URINE ROUTINE",
+        "fullName": "Urine Routine & Microscopy",
+        "mrp": 150,
+        "profit": 78,
+        "drProfit": 46.8
+    },
+    {
+        "id": "c2",
+        "category": "CLINICAL_PATHOLOGY",
+        "shortName": "BODY FLUID ROUTINE",
+        "mrp": 500,
+        "profit": 180,
+        "drProfit": 108
+    },
+    {
+        "id": "c3",
+        "category": "CLINICAL_PATHOLOGY",
+        "shortName": "24 HRS. URINARY DEAMIASE",
+        "mrp": 400,
+        "profit": 103,
+        "drProfit": 61.8
+    },
+    {
+        "id": "s1",
+        "category": "SEROLOGY",
+        "shortName": "VDRL",
+        "fullName": "Venereal Disease Research Laboratory",
+        "mrp": 300,
+        "profit": 133,
+        "drProfit": 79.8
+    },
+    {
+        "id": "s2",
+        "category": "SEROLOGY",
+        "shortName": "WIDAL TEST",
+        "mrp": 200,
+        "profit": 110,
+        "drProfit": 66
+    },
+    {
+        "id": "s3",
+        "category": "SEROLOGY",
+        "shortName": "RAPID LEPTO IGG ANTIBODY",
+        "mrp": 1170,
+        "profit": 1170,
+        "drProfit": 702
+    },
+    {
+        "id": "s4",
+        "category": "SEROLOGY",
+        "shortName": "RAPID DENGUE NS1 ANTIGEN",
+        "mrp": 800,
+        "profit": 620,
+        "drProfit": 372
+    },
+    {
+        "id": "s5",
+        "category": "SEROLOGY",
+        "shortName": "RAPID MALARIA ANTIGEN",
+        "mrp": 450,
+        "profit": 270,
+        "drProfit": 162
+    },
+    {
+        "id": "s7",
+        "category": "SEROLOGY",
+        "shortName": "RA QUALATATIVE",
+        "mrp": 550,
+        "profit": 343,
+        "drProfit": 205.8
+    },
+    {
+        "id": "s8",
+        "category": "SEROLOGY",
+        "shortName": "HCV RAPID",
+        "mrp": 650,
+        "profit": 425,
+        "drProfit": 255
+    },
+    {
+        "id": "s9",
+        "category": "SEROLOGY",
+        "shortName": "HBSAG RAPID",
+        "mrp": 450,
+        "profit": 252,
+        "drProfit": 151.2
+    },
+    {
+        "id": "s10",
+        "category": "SEROLOGY",
+        "shortName": "RAPID DENGUE IGG / IGM ANTIBODY",
+        "mrp": 1600,
+        "profit": 1100,
+        "drProfit": 660
+    },
+    {
+        "id": "s11",
+        "category": "SEROLOGY",
+        "shortName": "ASLO",
+        "fullName": "Antistreptolysin O",
+        "mrp": 460,
+        "profit": 190,
+        "drProfit": 114
+    },
+    {
+        "id": "s12",
+        "category": "SEROLOGY",
+        "shortName": "DIRECT COOMBS TEST",
+        "mrp": 450,
+        "profit": 158,
+        "drProfit": 94.8
+    },
+    {
+        "id": "s13",
+        "category": "SEROLOGY",
+        "shortName": "INDIRECT COOMBS TEST",
+        "mrp": 450,
+        "profit": 202,
+        "drProfit": 121.2
+    },
+    {
+        "id": "s14",
+        "category": "SEROLOGY",
+        "shortName": "CHIKUNGUNYA IGM ANTIBODY",
+        "mrp": 600,
+        "profit": 240,
+        "drProfit": 144
+    },
+    {
+        "id": "c4",
+        "category": "CYTOLOGY",
+        "shortName": "PAP SMEAR CYTOLOGY",
+        "mrp": 950,
+        "profit": 464,
+        "drProfit": 278.4
+    },
+    {
+        "id": "c5",
+        "category": "CYTOLOGY",
+        "shortName": "CSF ROUTINE AND MICROSCOPE",
+        "mrp": 500,
+        "profit": 150,
+        "drProfit": 90
+    },
+    {
+        "id": "h10",
+        "category": "HEMATOLOGY",
+        "shortName": "HB VARIANTS",
+        "mrp": 800,
+        "profit": 360,
+        "drProfit": 216
+    },
+    {
+        "id": "p4",
+        "category": "HISTOPATHLOGY",
+        "shortName": "VITAMIN D",
+        "mrp": 800,
+        "profit": 260,
+        "drProfit": 156
+    },
+    {
+        "id": "p5",
+        "category": "HISTOPATHLOGY",
+        "shortName": "VITAMIN B12",
+        "mrp": 900,
+        "profit": 572,
+        "drProfit": 343.2
+    },
+    {
+        "id": "p6",
+        "category": "HISTOPATHLOGY",
+        "shortName": "TOTAL PSA",
+        "fullName": "Prostate-Specific Antigen",
+        "mrp": 850,
+        "profit": 450,
+        "drProfit": 270
+    },
+    {
+        "id": "p7",
+        "category": "HISTOPATHLOGY",
+        "shortName": "CA 125",
+        "fullName": "Cancer Antigen 125",
+        "mrp": 800,
+        "profit": 440,
+        "drProfit": 264
+    },
+    {
+        "id": "p8",
+        "category": "HISTOPATHLOGY",
+        "shortName": "CA 19-9",
+        "fullName": "Cancer Antigen 19-9",
+        "mrp": 1000,
+        "profit": 550,
+        "drProfit": 330
+    },
+    {
+        "id": "p9",
+        "category": "HISTOPATHLOGY",
+        "shortName": "CEA",
+        "fullName": "Carcinoembryonic Antigen",
+        "mrp": 700,
+        "profit": 210,
+        "drProfit": 126
+    },
+    {
+        "id": "p10",
+        "category": "HISTOPATHLOGY",
+        "shortName": "D DIMER",
+        "mrp": 1230,
+        "profit": 553,
+        "drProfit": 331.8
+    },
+    {
+        "id": "p11",
+        "category": "HISTOPATHLOGY",
+        "shortName": "FDP",
+        "fullName": "Fibrin Degradation Products",
+        "mrp": 1290,
+        "profit": 580,
+        "drProfit": 348
+    },
+    {
+        "id": "p12",
+        "category": "HISTOPATHLOGY",
+        "shortName": "C.PEPTIDE",
+        "mrp": 1000,
+        "profit": 450,
+        "drProfit": 270
+    },
+    {
+        "id": "p13",
+        "category": "HISTOPATHLOGY",
+        "shortName": "CORTISOL",
+        "mrp": 690,
+        "profit": 240,
+        "drProfit": 144
+    },
+    {
+        "id": "p14",
+        "category": "HISTOPATHLOGY",
+        "shortName": "INSULIN",
+        "mrp": 790,
+        "profit": 434,
+        "drProfit": 260.4
+    },
+    {
+        "id": "p15",
+        "category": "HISTOPATHLOGY",
+        "shortName": "BLOOD AMMONIA",
+        "mrp": 920,
+        "profit": 470,
+        "drProfit": 282
+    },
+    {
+        "id": "p16",
+        "category": "HISTOPATHLOGY",
+        "shortName": "ANA",
+        "fullName": "Antinuclear Antibody",
+        "mrp": 600,
+        "profit": 270,
+        "drProfit": 162
+    },
+    {
+        "id": "p17",
+        "category": "HISTOPATHLOGY",
+        "shortName": "AFP",
+        "fullName": "Alpha-Fetoprotein",
+        "mrp": 700,
+        "profit": 420,
+        "drProfit": 252
+    },
+    {
+        "id": "p18",
+        "category": "HISTOPATHLOGY",
+        "shortName": "MAGNESIUM",
+        "mrp": 420,
+        "profit": 231,
+        "drProfit": 138.6
+    },
+    {
+        "id": "p19",
+        "category": "HISTOPATHLOGY",
+        "shortName": "PROCALCITONIN",
+        "mrp": 2520,
+        "profit": 1134,
+        "drProfit": 680.4
+    },
+    {
+        "id": "p21",
+        "category": "HISTOPATHLOGY",
+        "shortName": "17 OHP",
+        "mrp": 1220,
+        "profit": 680,
+        "drProfit": 408
+    },
+    {
+        "id": "p22",
+        "category": "HISTOPATHLOGY",
+        "shortName": "PTH",
+        "fullName": "Parathyroid Hormone",
+        "mrp": 930,
+        "profit": 480,
+        "drProfit": 288
+    },
+    {
+        "id": "p23",
+        "category": "HISTOPATHLOGY",
+        "shortName": "DIGOXIN",
+        "mrp": 870,
+        "profit": 391,
+        "drProfit": 234.6
+    },
+    {
+        "id": "p24",
+        "category": "HISTOPATHLOGY",
+        "shortName": "CARBAMAZEPINE",
+        "mrp": 820,
+        "profit": 369,
+        "drProfit": 221.4
+    },
+    {
+        "id": "p25",
+        "category": "HISTOPATHLOGY",
+        "shortName": "PHENYTOIN SODIUM",
+        "mrp": 1050,
+        "profit": 325,
+        "drProfit": 195
+    },
+    {
+        "id": "p26",
+        "category": "HISTOPATHLOGY",
+        "shortName": "HLA B27",
+        "mrp": 2500,
+        "profit": 250,
+        "drProfit": 150
+    },
+    {
+        "id": "p27",
+        "category": "HISTOPATHLOGY",
+        "shortName": "ANCA",
+        "mrp": 1070,
+        "profit": 520,
+        "drProfit": 312
+    },
+    {
+        "id": "p30",
+        "category": "HISTOPATHLOGY",
+        "shortName": "ANTI PRO BNP",
+        "mrp": 3000,
+        "profit": 900,
+        "drProfit": 540
+    }
+]
